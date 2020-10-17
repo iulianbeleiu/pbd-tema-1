@@ -2,9 +2,10 @@
 
 require 'Classes/Statements.php';
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $statements = new Statements();
+$statements = new Statements();
+$licences = $statements->getAllLicences();
 
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $tip = $_POST['tip'];
     $produs = $_POST['produs'];
     $producator = $_POST['producator'];
@@ -12,6 +13,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $document = $_POST['document'];
 
     $id = $statements->insertLicenta($tip, $produs, $producator, $valoare, $document);
+    header('Location: licenta.php');
 }
 ?>
 <!doctype html>
@@ -58,9 +60,30 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <button type="submit" class="btn btn-primary">Adauga</button>
         </form>
 
-        <?php if (isset($id)): ?>
-            <p>Calculatorul cu ID-ul <?= $id ?> a fost adaugat.</p>
-        <?php endif; ?>
+        <table class="table table-bordered mt-4">
+            <thead>
+                <tr>
+                <th scope="col">#</th>
+                <th scope="col">Tip licenta</th>
+                <th scope="col">Produs</th>
+                <th scope="col">Producator</th>
+                <th scope="col">Valoare</th>
+                <th scope="col">Document</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach($licences as $key => $licence): ?>
+                    <tr>
+                        <th scope="row"><?= $key + 1 ?></th>
+                        <td><?= $licence['tip'] ?></td>
+                        <td><?= $licence['produs'] ?></td>
+                        <td><?= $licence['producator'] ?></td>
+                        <td><?= $licence['valoare'] ?></td>
+                        <td><?= $licence['document'] ?></td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>

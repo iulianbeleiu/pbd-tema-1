@@ -146,4 +146,24 @@ class Statements
             return [];
         }
     }
+
+    public function getAllLicences()
+    {
+        try {
+            $query = '
+                SELECT
+                    *
+                FROM
+                    licenta;
+            ';
+            $statement = $this->connection->prepare($query);
+            $statement->execute();
+
+            $statement->setFetchMode(PDO::FETCH_ASSOC);
+
+            return $statement->fetchAll();
+        } catch (Exception $exception) {
+            return [];
+        }
+    }
 }
