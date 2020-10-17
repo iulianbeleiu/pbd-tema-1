@@ -99,6 +99,15 @@ INSERT INTO `evidenta_calculatoare_licente`.`calculator_licenta` (`id_calculator
 INSERT INTO `evidenta_calculatoare_licente`.`calculator_licenta` (`id_calculator`, `id_licenta`) VALUES ('3', '4');
 INSERT INTO `evidenta_calculatoare_licente`.`calculator_licenta` (`id_calculator`, `id_licenta`) VALUES ('4', '5');
 
+4.
+delimiter //
+Create PROCEDURE insert_calculator_angajat(IN p_id_angajat INT, IN p_id_calculator INT)
+BEGIN
+	INSERT INTO angajat_calculator(id_angajat, id_calculator) VALUES (p_id_angajat, p_id_calculator);
+END//
+
+CALL insert_calculator_angajat(1,1);
+
 5.
 SELECT
     licenta.produs, COUNT(*) AS nr_licente, SUM(valoare) AS valoare_totala
