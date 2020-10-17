@@ -107,6 +107,24 @@ class Statements
         }
     }
 
+    public function insertEmployeeComputer($id_angajat, $id_calculator)
+    {
+        try {
+            $statement = $this->connection->prepare("
+                INSERT INTO angajat_calculator(id_angajat, id_calculator)
+                    VALUES (:id_angajat, :id_calculator)
+            ");
+            $statement->bindParam(':id_angajat', $id_angajat);
+            $statement->bindParam(':id_calculator', $id_calculator);
+
+            $statement->execute();
+
+            return $this->connection->lastInsertId();
+        } catch (Exception $exception) {
+            return null;
+        }
+    }
+
     public function getAllEmployees()
     {
         try {
@@ -155,6 +173,34 @@ class Statements
                     *
                 FROM
                     licenta;
+            ';
+            $statement = $this->connection->prepare($query);
+            $statement->execute();
+
+            $statement->setFetchMode(PDO::FETCH_ASSOC);
+
+            return $statement->fetchAll();
+        } catch (Exception $exception) {
+            return [];
+        }
+    }
+
+    public function getAllEmployeeComputers()
+    {
+        try {
+            $query = '
+            SELECT
+                angajat.nume,
+                angajat.prenume,
+                angajat.nr_legitimatie,
+                calculator.descriere,
+                calculator.nr_inventar
+            FROM
+                evidenta_calculatoare_licente.angajat
+                    INNER JOIN
+                angajat_calculator ON angajat_calculator.id_angajat = angajat.id
+                    INNER JOIN
+                calculator ON calculator.id = angajat_calculator.id_calculator;
             ';
             $statement = $this->connection->prepare($query);
             $statement->execute();

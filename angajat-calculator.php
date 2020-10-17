@@ -3,15 +3,17 @@
 require 'Classes/Statements.php';
 
 $statements = new Statements();
+$employeeComputers = $statements->getAllEmployeeComputers();
+$employees = $statements->getAllEmployees();
 $computers = $statements->getAllComputers();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $descriere = $_POST['descriere'];
-    $nr_inventar = $_POST['nr_inventar'];
+    $id_angajat = $_POST['id_angajat'];
+    $id_calculator = $_POST['id_calculator'];
 
-    $id = $statements->insertComputer($descriere, $nr_inventar);
+    $id = $statements->insertEmployeeComputer($id_angajat, $id_calculator);
 
-    header('Location: calculator.php');
+    header('Location: angajat-calculator.php');
 }
 ?>
 <!doctype html>
@@ -34,13 +36,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <a class="navbar-brand" href="angajat-calculator.php">Angajat-Calculator</a>
         </nav>
         <form method="POST" class="mt-4">
-            <div class="form-group">
-                <label for="descriere">Descriere</label>
-                <textarea class="form-control" id="descriere" name="descriere" rows="3"></textarea>
-            </div>
-            <div class="form-group">
-                <label for="nr_inventar">Nr. Inventar</label>
-                <input type="number" class="form-control" id="nr_inventar" name="nr_inventar">
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <select class="custom-select" required name="id_angajat">
+                    <option value="">Selecteaza Angajat</option>
+                        <?php foreach($employees as $key => $employee): ?>
+                            <option value="<?= $employee['id'] ?>">Nume: <?= $employee['nume'] ?> Legitimatie: <?= $employee['nr_legitimatie'] ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+                <div class="form-group col-md-6">
+                    <select class="custom-select" required name="id_calculator">
+                    <option value="">Selecteaza Computer</option>
+                    <?php foreach($computers as $key => $computer): ?>
+                        <option value="<?= $computer['id'] ?>">Nr. Inventar: <?= $computer['nr_inventar'] ?> Descriere: <?= $computer['descriere'] ?></option>
+                    <?php endforeach; ?>
+                    </select>
+                </div>
             </div>
             <button type="submit" class="btn btn-primary">Adauga</button>
         </form>
@@ -49,16 +61,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <thead>
                 <tr>
                 <th scope="col">#</th>
+                <th scope="col">Nume</th>
+                <th scope="col">Prenume</th>
+                <th scope="col">Nr. Legitimatie</th>
                 <th scope="col">Descriere Computer</th>
                 <th scope="col">Nr. Inventar</th>
                 </tr>
             </thead>
             <tbody>
-                <?php foreach($computers as $key => $computer): ?>
+                <?php foreach($employeeComputers as $key => $employeeComputer): ?>
                     <tr>
                         <th scope="row"><?= $key + 1 ?></th>
-                        <td><?= $computer['descriere'] ?></td>
-                        <td><?= $computer['nr_inventar'] ?></td>
+                        <td><?= $employeeComputer['nume'] ?></td>
+                        <td><?= $employeeComputer['prenume'] ?></td>
+                        <td><?= $employeeComputer['nr_legitimatie'] ?></td>
+                        <td><?= $employeeComputer['descriere'] ?></td>
+                        <td><?= $employeeComputer['nr_inventar'] ?></td>
                     </tr>
                 <?php endforeach; ?>
             </tbody>
