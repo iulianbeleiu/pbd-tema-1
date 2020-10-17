@@ -212,4 +212,49 @@ class Statements
             return [];
         }
     }
+
+    public function getAllComputerLicences()
+    {
+        try {
+            $query = '
+            SELECT
+                calculator.descriere,
+                calculator.nr_inventar,
+                licenta.tip,
+                licenta.produs
+            FROM
+                evidenta_calculatoare_licente.calculator
+                    INNER JOIN
+                calculator_licenta ON calculator_licenta.id_calculator = calculator.id
+                    INNER JOIN
+                licenta ON licenta.id = calculator_licenta.id_licenta;
+            ';
+            $statement = $this->connection->prepare($query);
+            $statement->execute();
+
+            $statement->setFetchMode(PDO::FETCH_ASSOC);
+
+            return $statement->fetchAll();
+        } catch (Exception $exception) {
+            return [];
+        }
+    }
+
+    public function insertComputerLicence($id_calculator, $id_licenta)
+    {
+        try {
+            $statement = $this->connection->prepare("
+                INSERT INTO calculator_licenta(id_calculator, id_licenta)
+                    VALUES (:id_calculator, :id_licenta)
+            ");
+            $statement->bindParam(':id_calculator', $id_calculator);
+            $statement->bindParam(':id_licenta', $id_licenta);
+
+            $statement->execute();
+
+            return $this->connection->lastInsertId();
+        } catch (Exception $exception) {
+            return null;
+        }
+    }
 }

@@ -33,6 +33,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <a class="navbar-brand" href="calculator.php">Calculator</a>
             <a class="navbar-brand" href="licenta.php">Licenta</a>
             <a class="navbar-brand" href="angajat-calculator.php">Angajat-Calculator</a>
+            <a class="navbar-brand" href="calculator-licenta.php">Calculator-Licenta</a>
         </nav>
         <form method="POST" class="mt-4">
             <div class="form-row">

@@ -23,6 +23,7 @@ $employees = $statements->getAllEployeesComputersAndProducts();
             <a class="navbar-brand" href="calculator.php">Calculator</a>
             <a class="navbar-brand" href="licenta.php">Licenta</a>
             <a class="navbar-brand" href="angajat-calculator.php">Angajat-Calculator</a>
+            <a class="navbar-brand" href="calculator-licenta.php">Calculator-Licenta</a>
         </nav>
         <table class="table table-bordered mt-4">
             <thead>
