@@ -18,8 +18,10 @@ $employees = $statements->getAllEployeesComputersAndProducts();
   <body>
     <div class="container">
         <nav class="navbar sticky-top navbar-light bg-light mt-4">
+            <a class="navbar-brand" href="index.php">Acasa</a>
             <a class="navbar-brand" href="angajat.php">Angajat</a>
             <a class="navbar-brand" href="calculator.php">Calculator</a>
+            <a class="navbar-brand" href="licenta.php">Licenta</a>
         </nav>
         <table class="table table-bordered mt-4">
             <thead>

@@ -5,10 +5,13 @@ require 'Classes/Statements.php';
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $statements = new Statements();
 
-    $descriere = $_POST['descriere'];
-    $nr_inventar = $_POST['nr_inventar'];
+    $tip = $_POST['tip'];
+    $produs = $_POST['produs'];
+    $producator = $_POST['producator'];
+    $valoare = $_POST['valoare'];
+    $document = $_POST['document'];
 
-    $id = $statements->insertComputer($descriere, $nr_inventar);
+    $id = $statements->insertLicenta($tip, $produs, $producator, $valoare, $document);
 }
 ?>
 <!doctype html>
@@ -31,12 +34,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </nav>
         <form method="POST" class="mt-4">
             <div class="form-group">
-                <label for="descriere">Descriere</label>
-                <textarea class="form-control" id="descriere" name="descriere" rows="3"></textarea>
+                <label for="tip">Tip</label>
+                <input type="text" class="form-control" id="tip" name="tip">
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="produs">Produs</label>
+                    <input type="text" class="form-control" id="produs" name="produs">
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="producator">Producator</label>
+                    <input type="text" class="form-control" id="producator" name="producator">
+                </div>
             </div>
             <div class="form-group">
-                <label for="nr_inventar">Nr. Inventar</label>
-                <input type="text" class="form-control" id="nr_inventar" name="nr_inventar">
+                <label for="valoare">Valoare</label>
+                <input type="number" class="form-control" id="valoare" name="valoare">
+            </div>
+            <div class="form-group">
+                <label for="document">Document</label>
+                <input type="text" class="form-control" id="document" name="document">
             </div>
             <button type="submit" class="btn btn-primary">Adauga</button>
         </form>

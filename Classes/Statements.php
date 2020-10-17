@@ -85,4 +85,25 @@ class Statements
             return null;
         }
     }
+
+    public function insertLicenta($tip, $produs, $producator, $valoare, $document)
+    {
+        try {
+            $statement = $this->connection->prepare("
+                INSERT INTO licenta (tip, produs, producator, valoare, document)
+                    VALUES (:tip, :produs, :producator, :valoare, :document)
+            ");
+            $statement->bindParam(':tip', $tip);
+            $statement->bindParam(':produs', $produs);
+            $statement->bindParam(':producator', $producator);
+            $statement->bindParam(':valoare', $valoare);
+            $statement->bindParam(':document', $document);
+
+            $statement->execute();
+
+            return $this->connection->lastInsertId();
+        } catch (Exception $exception) {
+            return null;
+        }
+    }
 }
