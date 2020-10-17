@@ -257,4 +257,25 @@ class Statements
             return null;
         }
     }
+
+    public function getLicencesTotalValueByProducer()
+    {
+        try {
+            $query = '
+            SELECT
+                licenta.producator,COUNT(*) AS nr_licente, SUM(valoare) AS valoare_totala
+            FROM
+                licenta
+            GROUP BY producator;
+            ';
+            $statement = $this->connection->prepare($query);
+            $statement->execute();
+
+            $statement->setFetchMode(PDO::FETCH_ASSOC);
+
+            return $statement->fetchAll();
+        } catch (Exception $exception) {
+            return [];
+        }
+    }
 }

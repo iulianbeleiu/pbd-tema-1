@@ -101,9 +101,9 @@ INSERT INTO `evidenta_calculatoare_licente`.`calculator_licenta` (`id_calculator
 
 5.
 SELECT
-    COUNT(*) AS nr_licente, SUM(valoare) AS valoare_totala
+    licenta.produs, COUNT(*) AS nr_licente, SUM(valoare) AS valoare_totala
 FROM
-    evidenta_calculatoare_licente.licenta
+    licenta
 GROUP BY producator;
 
 6.
