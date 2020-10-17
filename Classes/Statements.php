@@ -340,4 +340,35 @@ class Statements
             return [];
         }
     }
+
+    public function maxValue()
+    {
+        try {
+            $query = '
+            SELECT
+                angajat.id, angajat.nume, angajat.prenume, licenta.valoare
+            FROM
+                angajat
+                    INNER JOIN
+                angajat_calculator ON angajat_calculator.id_angajat = angajat.id
+                    INNER JOIN
+                calculator_licenta ON calculator_licenta.id_calculator = angajat_calculator.id_calculator
+                    INNER JOIN
+                licenta ON licenta.id = calculator_licenta.id_licenta
+            WHERE
+                (SELECT
+                        MAX(valoare)
+                    FROM
+                        licenta) = licenta.valoare;
+            ';
+            $statement = $this->connection->prepare($query);
+            $statement->execute();
+
+            $statement->setFetchMode(PDO::FETCH_ASSOC);
+
+            return $statement->fetchAll();
+        } catch (Exception $exception) {
+            return [];
+        }
+    }
 }

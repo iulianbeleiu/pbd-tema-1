@@ -6,7 +6,7 @@ $statements = new Statements();
 $employeesNoProdoucts = $statements->employeesNoProducts();
 ?>
 <p>9. Sa se afiseze calculatoarele si utilizatorii acestora care nu au alocate produsele Windows sau
-Office, precizand: nr. inventar, nume, prenume, nr. legit si respec</p>
+Office, precizand: nr. inventar, nume, prenume, nr. legit si respectiv ce produs lipseste.</p>
 <hr/>
 <table class="table table-bordered mt-4">
     <thead>
