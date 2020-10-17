@@ -2,14 +2,17 @@
 
 require 'Classes/Statements.php';
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $statements = new Statements();
+$statements = new Statements();
+$employees = $statements->getAllEmployees();
 
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $nume = $_POST['nume'];
     $prenume = $_POST['prenume'];
     $nr_legitimatie = $_POST['nr_legitimatie'];
 
     $id = $statements->insertEmployee($nume, $prenume, $nr_legitimatie);
+
+    header('Location: angajat.php');
 }
 ?>
 <!doctype html>
@@ -49,9 +52,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <button type="submit" class="btn btn-primary">Adauga</button>
         </form>
 
-        <?php if (isset($id)): ?>
-            <p>Angajatul cu ID-ul <?= $id ?> a fost adaugat.</p>
-        <?php endif; ?>
+        <table class="table table-bordered mt-4">
+            <thead>
+                <tr>
+                <th scope="col">#</th>
+                <th scope="col">Nume</th>
+                <th scope="col">Prenume</th>
+                <th scope="col">Nr. Legitimatie</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach($employees as $key => $employee): ?>
+                    <tr>
+                        <th scope="row"><?= $key + 1 ?></th>
+                        <td><?= $employee['nume'] ?></td>
+                        <td><?= $employee['prenume'] ?></td>
+                        <td><?= $employee['nr_legitimatie'] ?></td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>

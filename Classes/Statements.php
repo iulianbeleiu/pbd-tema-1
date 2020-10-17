@@ -106,4 +106,24 @@ class Statements
             return null;
         }
     }
+
+    public function getAllEmployees()
+    {
+        try {
+            $query = '
+                SELECT
+                    *
+                FROM
+                    angajat;
+            ';
+            $statement = $this->connection->prepare($query);
+            $statement->execute();
+
+            $statement->setFetchMode(PDO::FETCH_ASSOC);
+
+            return $statement->fetchAll();
+        } catch (Exception $exception) {
+            return [];
+        }
+    }
 }
