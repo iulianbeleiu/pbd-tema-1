@@ -278,4 +278,66 @@ class Statements
             return [];
         }
     }
+
+    public function detailedReport()
+    {
+        try {
+            $query = '
+            SELECT
+                producator, tip, COUNT(*) AS nr_licente, SUM(valoare) AS valoare_totala
+            FROM
+                licenta
+            GROUP BY producator , tip , RIGHT(document, 4)
+            ORDER BY RIGHT(document, 4) DESC , producator , tip;
+            ';
+            $statement = $this->connection->prepare($query);
+            $statement->execute();
+
+            $statement->setFetchMode(PDO::FETCH_ASSOC);
+
+            return $statement->fetchAll();
+        } catch (Exception $exception) {
+            return [];
+        }
+    }
+
+    public function employeesNoProducts()
+    {
+        try {
+            $query = '
+            SELECT
+                calculator.nr_inventar,
+                angajat.nume,
+                angajat.prenume,
+                angajat.nr_legitimatie,
+                GROUP_CONCAT(produs) AS produse,
+                CASE
+                    WHEN TRIM(LOWER(produs)) LIKE "%office%" THEN "Windows"
+                    WHEN TRIM(LOWER(produs)) LIKE "%windows%" THEN "Office"
+                    ELSE "Windows,Office"
+                END AS produse_lipsa
+            FROM
+                calculator
+                    INNER JOIN
+                angajat_calculator ON calculator.id = angajat_calculator.id_calculator
+                    INNER JOIN
+                angajat ON angajat_calculator.id_angajat = angajat.id
+                    INNER JOIN
+                calculator_licenta ON calculator_licenta.id_calculator = calculator.id
+                    INNER JOIN
+                licenta ON licenta.id = calculator_licenta.id_licenta
+            GROUP BY nr_inventar
+            HAVING (TRIM(LOWER(produse)) NOT LIKE "%windows%"
+                OR TRIM(LOWER(produse)) NOT LIKE "%office%");
+            ';
+            $statement = $this->connection->prepare($query);
+            $statement->execute();
+
+            $statement->setFetchMode(PDO::FETCH_ASSOC);
+
+            return $statement->fetchAll();
+        } catch (Exception $exception) {
+            return [];
+        }
+    }
 }

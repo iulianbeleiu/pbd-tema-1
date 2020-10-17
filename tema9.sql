@@ -108,9 +108,9 @@ GROUP BY producator;
 
 6.
 SELECT
-    COUNT(*) AS nr_licente, SUM(valoare) AS valoare_totala
+    producator, tip, COUNT(*) AS nr_licente, SUM(valoare) AS valoare_totala
 FROM
-    evidenta_calculatoare_licente.licenta
+    licenta
 GROUP BY producator , tip , RIGHT(document, 4)
 ORDER BY RIGHT(document, 4) DESC , producator , tip;
 
@@ -122,8 +122,8 @@ SELECT
     angajat.nr_legitimatie,
     GROUP_CONCAT(produs) AS produse,
     CASE
-        WHEN TRIM(LOWER(produs)) LIKE '%office%' THEN 'Windows'
-        WHEN TRIM(LOWER(produs)) LIKE '%windows%' THEN 'Office'
+        WHEN TRIM(LOWER(produs)) LIKE "%office%" THEN "Windows"
+        WHEN TRIM(LOWER(produs)) LIKE "%windows%" THEN "Office"
         ELSE "Windows,Office"
     END AS produse_lipsa
 FROM
@@ -137,8 +137,8 @@ FROM
         INNER JOIN
     licenta ON licenta.id = calculator_licenta.id_licenta
 GROUP BY nr_inventar
-HAVING (TRIM(LOWER(produse)) NOT LIKE '%windows%'
-    OR TRIM(LOWER(produse)) NOT LIKE '%office%');
+HAVING (TRIM(LOWER(produse)) NOT LIKE "%windows%"
+    OR TRIM(LOWER(produse)) NOT LIKE "%office%");
 
 10.
 SELECT
