@@ -2,13 +2,16 @@
 
 require 'Classes/Statements.php';
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $statements = new Statements();
+$statements = new Statements();
+$computers = $statements->getAllComputers();
 
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $descriere = $_POST['descriere'];
     $nr_inventar = $_POST['nr_inventar'];
 
     $id = $statements->insertComputer($descriere, $nr_inventar);
+
+    header('Location: calculator.php');
 }
 ?>
 <!doctype html>
@@ -36,14 +39,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div>
             <div class="form-group">
                 <label for="nr_inventar">Nr. Inventar</label>
-                <input type="text" class="form-control" id="nr_inventar" name="nr_inventar">
+                <input type="number" class="form-control" id="nr_inventar" name="nr_inventar">
             </div>
             <button type="submit" class="btn btn-primary">Adauga</button>
         </form>
 
-        <?php if (isset($id)): ?>
-            <p>Calculatorul cu ID-ul <?= $id ?> a fost adaugat.</p>
-        <?php endif; ?>
+        <table class="table table-bordered mt-4">
+            <thead>
+                <tr>
+                <th scope="col">#</th>
+                <th scope="col">Descriere Computer</th>
+                <th scope="col">Nr. Inventar</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach($computers as $key => $computer): ?>
+                    <tr>
+                        <th scope="row"><?= $key + 1 ?></th>
+                        <td><?= $computer['descriere'] ?></td>
+                        <td><?= $computer['nr_inventar'] ?></td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
