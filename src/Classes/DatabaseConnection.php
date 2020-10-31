@@ -6,7 +6,7 @@ class DatabaseConnection
 
     private $connection = null;
 
-    private $host = '127.0.0.1';
+    private $host = 'database';
 
     private $user = 'root';
 
@@ -18,6 +18,7 @@ class DatabaseConnection
         try {
             $this->connection = new PDO(
                 "mysql:host={$this->host};
+                port=3306;
                 dbname={$this->databaseName}",
                 $this->user,
                 $this->password
